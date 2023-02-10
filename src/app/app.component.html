@@ -1,1 +1,46 @@
-<hello-nx-welcome></hello-nx-welcome>
+<div class="container  my-4 " useState="message" [value]="'Hello and ... WelCome !!! '">
+        <h4 class="text-primary " >Todo CRUD App : Advanced Ngrx : Level-1 Introduction Angular-UseState </h4>
+        <ng-container *ngIf="'message'|readState|async as message " >
+            <div  class="position-absolute p-1 my-0 top-0 start-50  translate-middle-x shadow bg-warning font-sm " *ngIf="(message |timeout:4 | async)  as msg ">
+                    <small> {{  msg }}</small> 
+            </div>
+        </ng-container>       
+        <ng-container useAPIState="todo"    #todos=useAPIState  >
+                <ng-container useState="state" #state=useState ></ng-container>
+                <form  useFormState="todoform" #form=useFormState  class="py-2"  [initialState]="{targetdate:today.value}"  >
+                    <div class="row" useState="today" #today=useState [value]="0|addSysdate|date:'YYYY-MM-dd'">                        
+                        <use-form-field class="col" name="todo" placeholder="Add Todo..." [required]="true" ></use-form-field>    
+                        <use-form-field class="col-auto" name="targetdate" [required]="true" fieldType="date"  #target ></use-form-field>    
+                        <div class="col-auto">
+                            <button class="btn btn-sm btn-primary " [disabled]="form.formgroup.invalid" doPostAPIAction="todo" 
+                                (actionComplete)="todos.addEntityValue($event);state.updateStateName('message','Record Added '+$event.todo);target.formControl.setValue($event.targetdate)"  >ADD TASK</button>                            
+                        </div>
+                    </div>              
+                </form>
+                <div class="card" >
+                    <ng-container    *ngFor="let date of ('todo'|readState|async )||[] | groupBy:'targetdate' | keyvalue  as datetodos" >
+                        <h5 class="mx-2">{{date.key|date}}</h5>
+                        <ul class="list-group list-group-flush"   >
+                            <!-- <li     *ngFor="let item of  ( ('todo'|readState|async )||[] |filterArray:{targetdate:date.key} ) " class="list-group-item d-block "> -->
+                            <li     *ngFor="let item of  (  date.value ) " class="list-group-item d-block ">
+                                <div   class="d-flex align-items-center  "   >                                
+                                    <div class="d-flex flex-grow-1">
+                                        <input type="checkbox" [checked]="item.status==='C'" doPostAPIAction="todo"  class="mx-1"
+                                                [postData]="item|assignObject:{status: item.status==='C'?'P':'C' }" (actionComplete)="todos.updateEntity('id',item.id,$event )"  >
+                                        <div class="d-flex flex-column mx-2">
+                                             <div [ngClass]="{'text-decoration-line-through text-danger ':item.status==='C'}"> {{item?.todo}}</div> 
+                                            <div class="text-muted"> {{item.targetdate}} </div>
+                                        </div>                                            
+                                    </div>
+                                     <div class="d-flex">
+                                             <button type="button" class="btn btn-icon btn-sm  btn-danger" [doDeleteAPIAction]="'todo/'+item.id" (actionComplete)="todos.deleteEntity('id',item.id);state.updateStateName('message','Record Deleted '+item.todo)"  >
+                                                 X
+                                             </button>
+                                     </div>
+                                </div>
+                            </li>                        
+                        </ul>
+                    </ng-container>
+                </div>                
+        </ng-container>        
+</div>
