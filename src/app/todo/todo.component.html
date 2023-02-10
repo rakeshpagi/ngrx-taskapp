@@ -1,6 +1,0 @@
-<ng-container  useState="message"  #myvar=useState [value]="'Hello .. Welcome All '" ></ng-container>
-
-<div class="bg-info" *ngIf="'message'|readState|async as msg  " >
-    {{ msg | timeout:3 | async   }}
-</div>
-
