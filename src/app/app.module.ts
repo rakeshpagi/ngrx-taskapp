@@ -9,9 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AngularUsestateModule, API_ENDPOINT } from 'angular-usestate';
+import { TodoComponent } from './todo/todo.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, TodoComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -19,7 +20,11 @@ import { AngularUsestateModule, API_ENDPOINT } from 'angular-usestate';
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
     HttpClientModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot([
+        {
+          path:'',component:TodoComponent
+        }
+    ]),
   ],
   providers: [
     {
