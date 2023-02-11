@@ -1,0 +1,19 @@
+
+Data Pipes 
+<!-- Sample Data -->
+<ng-container  useState="products" 
+    [value]="[ {name:'A',price:100} , { name:'b',price:123  } ] " >
+</ng-container>
+<hr>
+<!-- READ -->
+<ng-container *ngIf="'products'|readState|async as products " >
+    {{ products|json }}
+    <hr>
+  sumOf 
+  
+
+</ng-container>
+ 
+
+<!-- sumOf -->
+
